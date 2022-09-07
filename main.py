@@ -9,7 +9,7 @@ def create_Body_Departures():
   if lengthdepyssy >= 5 and functionstatus_1 != 1:
     jsoncontent = {
       "username": "SosijBot",
-      "content": "<" + sys.argv[1] + ">  there are currently " + str(lengthdepyssy) + " departures at YSSY",
+      "content": "<" + sys.argv[3] + ">  there are currently " + str(lengthdepyssy) + " departures at YSSY",
       "embeds": [
         {
           "fields": [
@@ -26,7 +26,7 @@ def create_Body_Departures():
   if lengthdepybbn >= 5 and functionstatus_3 != 1:
     jsoncontent = {
       "username": "SosijBot",
-      "content": "<" + sys.argv[1] + "> there are currently " + str(lengthdepybbn) + " departures at YBBN",
+      "content": "<" + sys.argv[3] + "> there are currently " + str(lengthdepybbn) + " departures at YBBN",
       "embeds": [
         {
           "fields": [
@@ -47,13 +47,13 @@ def create_Body_Arrivals():
   if lengtharryssy >= 5 and functionstatus_2 != 1:
     jsoncontent = {
       "username": "SosijBot",
-      "content": "<" + sys.argv[1] + "> there are currently " + str(lengtharryssy) + " arrivals at YSSY"
+      "content": "<" + sys.argv[3] + "> there are currently " + str(lengtharryssy) + " arrivals at YSSY"
     }
 
   if lengtharrybbn >= 5 and functionstatus_4 != 1:
     jsoncontent = {
       "username": "SosijBot",
-      "content": "<" + sys.argv[1] + "> there are currently " + str(lengtharrybbn) + " arrivals at YBBN"
+      "content": "<" + sys.argv[3] + "> there are currently " + str(lengtharrybbn) + " arrivals at YBBN"
     }
   
   requests.post(discord_weburi, json = jsoncontent)
@@ -80,19 +80,19 @@ functionstatus_4 = None
 while True:
 
   #Declare airport departures for Sydney arrays. Use for count
-  yssy_dep = []
-  yssy_arr = []
-  array_yssydeptimes = []
-  array_yssydepcids = []
+  yssy_dep = None
+  yssy_arr = None
+  array_yssydeptimes = None
+  array_yssydepcids = None
 
   #Declare airport departures for Brissy arrays. Use for count
-  ybbn_dep = []
-  ybbn_arr = []
-  array_ybbndeptimes = []
-  array_ybbndepcids = []
+  ybbn_dep = None
+  ybbn_arr = None
+  array_ybbndeptimes = None
+  array_ybbndepcids = None
 
-  firstinline_yssy_array = []
-  firstinline_ybbn_array = []
+  firstinline_yssy_array = None
+  firstinline_ybbn_array = None
 
   # EDDDYYYYYYY
   # Do not run webhook if Eddy is online
