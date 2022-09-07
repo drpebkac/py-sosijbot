@@ -63,11 +63,6 @@ def create_Body_Arrivals():
 #Discord webhook
 discord_weburi = sys.argv[1]
 
-# Vatsim API
-rawpilot_vatdata = requests.get("https://data.vatsim.net/v3/vatsim-data.json")
-pilotresults = json.loads(rawpilot_vatdata.content)['pilots']
-controllerresults = json.loads(rawpilot_vatdata.content)['controllers']
-
 #Airport to scope
 scopedairports = ["YSSY", "YBBN"]
 
@@ -78,6 +73,12 @@ functionstatus_3 = None
 functionstatus_4 = None
 
 while True:
+  
+  # Vatsim API
+  #This goes in the loop you fucking moron
+  rawpilot_vatdata = requests.get("https://data.vatsim.net/v3/vatsim-data.json")
+  pilotresults = json.loads(rawpilot_vatdata.content)['pilots']
+  controllerresults = json.loads(rawpilot_vatdata.content)['controllers']
 
   #Declare airport departures for Sydney arrays. Use for count
   yssy_dep = None
