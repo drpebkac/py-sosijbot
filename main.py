@@ -207,15 +207,15 @@ while True:
       create_Body_Departures()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_1 = 1
-    elif lengthdepyssy < 5 and functionstatus_1 == 1:
+    elif lengthdepyssy < 5:
       functionstatus_1 = 0
-
+    
     if lengtharryssy >= 5 and functionstatus_2 != 1:
       print("There are " + str(lengtharryssy) + " arrivals in YSSY")
       create_Body_Arrivals()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_2 = 1
-    elif lengtharryssy < 5 and functionstatus_2 == 1:
+    elif lengtharryssy < 5:
       functionstatus_2 = 0
 
     if lengthdepybbn >= 5 and functionstatus_3 != 1:
@@ -223,7 +223,7 @@ while True:
       create_Body_Departures()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_3 = 1
-    elif lengthdepybbn < 5 and functionstatus_3 == 1:
+    elif lengthdepybbn < 5:
       functionstatus_3 = 0
     
     if lengtharrybbn >= 5 and functionstatus_4 != 1:
@@ -231,7 +231,7 @@ while True:
       create_Body_Arrivals()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_4 = 1
-    elif lengtharrybbn < 5 and functionstatus_4 == 1:
+    elif lengtharrybbn < 5:
       functionstatus_4 = 0
     
   time.sleep(15.0)
