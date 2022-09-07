@@ -81,19 +81,19 @@ while True:
   controllerresults = json.loads(rawpilot_vatdata.content)['controllers']
 
   #Declare airport departures for Sydney arrays. Use for count
-  yssy_dep = None
-  yssy_arr = None
-  array_yssydeptimes = None
-  array_yssydepcids = None
+  yssy_dep = []
+  yssy_arr = []
+  array_yssydeptimes = []
+  array_yssydepcids = []
 
   #Declare airport departures for Brissy arrays. Use for count
-  ybbn_dep = None
-  ybbn_arr = None
-  array_ybbndeptimes = None
-  array_ybbndepcids = None
+  ybbn_dep = []
+  ybbn_arr = []
+  array_ybbndeptimes = []
+  array_ybbndepcids = []
 
-  firstinline_yssy_array = None
-  firstinline_ybbn_array = None
+  firstinline_yssy_array = []
+  firstinline_ybbn_array = []
 
   # EDDDYYYYYYY
   # Do not run webhook if Eddy is online
