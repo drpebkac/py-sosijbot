@@ -72,10 +72,10 @@ controllerresults = json.loads(rawpilot_vatdata.content)['controllers']
 scopedairports = ["YSSY", "YBBN"]
 
 # Used as variable declaration to trigger webhook function because Python is retarded
-functionstatus_1 = 0
-functionstatus_2 = 0
-functionstatus_3 = 0
-functionstatus_4 = 0
+functionstatus_1 = None
+functionstatus_2 = None
+functionstatus_3 = None
+functionstatus_4 = None
 
 while True:
 
@@ -96,8 +96,6 @@ while True:
 
   # EDDDYYYYYYY
   # Do not run webhook if Eddy is online
-  eddy_pilot = False
-  eddy_controller = False
   exemptcid = sys.argv[2]
   exemptstations = ["SY_TWR", "SY_GND", "BN_TWR", "BN_GND"]
 
@@ -108,15 +106,16 @@ while True:
     else:
       eddy_pilot = "offline"
 
+  # Rescoped for any controllers
   for i in controllerresults:
-    if exemptcid == str(i['cid']) and i['callsign'] in exemptstations:
-      eddy_controller = "online"
+    if i['callsign'] in exemptstations or exemptcid == str(i['cid']):
+      controller = "online"
       break
     else:
-      eddy_controller = "offline"
+      controller = "offline"
 
   print(eddy_pilot)
-  print(eddy_controller)
+  print(controller)
 
   #Gather departures and arrivals
   for i in pilotresults:
@@ -196,7 +195,7 @@ while True:
           webhookout_dep = dep
 
   # If Eddy is online, dont run function
-  if eddy_pilot != "online" and eddy_controller != "online":
+  if eddy_pilot != "online" and controller != "online":
     lengthdepyssy = len(yssy_dep)
     lengtharryssy = len(yssy_arr)
     lengthdepybbn = len(ybbn_dep)
@@ -208,7 +207,7 @@ while True:
       #Reset variable so it doesnt parse in the next if block
       functionstatus_1 = 1
     elif lengthdepyssy < 5:
-      functionstatus_1 = 0
+      functionstatus_1 = None
     
     if lengtharryssy >= 5 and functionstatus_2 != 1:
       print("There are " + str(lengtharryssy) + " arrivals in YSSY")
@@ -216,7 +215,7 @@ while True:
       #Reset variable so it doesnt parse in the next if block
       functionstatus_2 = 1
     elif lengtharryssy < 5:
-      functionstatus_2 = 0
+      functionstatus_2 = None
 
     if lengthdepybbn >= 5 and functionstatus_3 != 1:
       print("There are " + str(lengthdepybbn) + " departures in YBBN")
@@ -224,7 +223,7 @@ while True:
       #Reset variable so it doesnt parse in the next if block
       functionstatus_3 = 1
     elif lengthdepybbn < 5:
-      functionstatus_3 = 0
+      functionstatus_3 = None
     
     if lengtharrybbn >= 5 and functionstatus_4 != 1:
       print("There are " + str(lengtharrybbn) + " arrivals in YBBN")
@@ -232,6 +231,6 @@ while True:
       #Reset variable so it doesnt parse in the next if block
       functionstatus_4 = 1
     elif lengtharrybbn < 5:
-      functionstatus_4 = 0
+      functionstatus_4 = None
     
   time.sleep(15.0)
