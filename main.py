@@ -77,8 +77,9 @@ while True:
   # Vatsim API
   #This goes in the loop you fucking moron
   rawpilot_vatdata = requests.get("https://data.vatsim.net/v3/vatsim-data.json")
-  pilotresults = json.loads(rawpilot_vatdata.content)['pilots']
-  controllerresults = json.loads(rawpilot_vatdata.content)['controllers']
+  rawjson = json.loads(rawpilot_vatdata.content)
+  pilotresults = rawjson['pilots']
+  controllerresults = rawjson['controllers']
 
   #Declare airport departures for Sydney arrays. Use for count
   yssy_dep = []
@@ -202,36 +203,36 @@ while True:
     lengthdepybbn = len(ybbn_dep)
     lengtharrybbn = len(ybbn_arr)
 
-    if lengthdepyssy >= 5 and functionstatus_1 != 1:
+    if lengthdepyssy >= 8 and functionstatus_1 != 1:
       print("There are " + str(lengthdepyssy) + " departures in YSSY")
       create_Body_Departures()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_1 = 1
-    elif lengthdepyssy < 5:
+    elif lengthdepyssy < 8:
       functionstatus_1 = None
     
-    if lengtharryssy >= 5 and functionstatus_2 != 1:
+    if lengtharryssy >= 8 and functionstatus_2 != 1:
       print("There are " + str(lengtharryssy) + " arrivals in YSSY")
       create_Body_Arrivals()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_2 = 1
-    elif lengtharryssy < 5:
+    elif lengtharryssy < 8:
       functionstatus_2 = None
 
-    if lengthdepybbn >= 5 and functionstatus_3 != 1:
+    if lengthdepybbn >= 8 and functionstatus_3 != 1:
       print("There are " + str(lengthdepybbn) + " departures in YBBN")
       create_Body_Departures()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_3 = 1
-    elif lengthdepybbn < 5:
+    elif lengthdepybbn < 8:
       functionstatus_3 = None
     
-    if lengtharrybbn >= 5 and functionstatus_4 != 1:
+    if lengtharrybbn >= 8 and functionstatus_4 != 1:
       print("There are " + str(lengtharrybbn) + " arrivals in YBBN")
       create_Body_Arrivals()
       #Reset variable so it doesnt parse in the next if block
       functionstatus_4 = 1
-    elif lengtharrybbn < 5:
+    elif lengtharrybbn < 8:
       functionstatus_4 = None
     
   time.sleep(15.0)
