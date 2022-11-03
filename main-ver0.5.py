@@ -4,6 +4,10 @@ import sys
 import time
 import re
 
+#Global variables
+scopedairports = ["YSSY", "YBBN"]
+exemptstations = ["SY_TWR", "SY_GND", "BN_TWR", "BN_GND"]
+
 class Post:
   def create_Body_Departures():
     print('placeholder')
@@ -21,25 +25,21 @@ class Get:
     return controller_data
 
 class StartWorkFlow:
-  def gatherDeps(pilot_data):
-    print(pilot_data)
-  def gatherArrs(pilot_data):
-    print(pilot_data)
+  def countDeps(pilot_data):
+    print("")
+  def countArrs(pilot_data):
+    print("")
 
 
 
-
-#Global variables
-scopedairports = ["YSSY", "YBBN"]
-exemptstations = ["SY_TWR", "SY_GND", "BN_TWR", "BN_GND"]
 
 #Entry point
 while True:
   try:
-    exempt_sid = sys.argv[1]
+    exempt_sid = str(sys.argv[1])
   except:
     print("No exception defined for controller_cid. Assigning except_controller_cid id to default")
-    exempt_sid = 000000
+    exempt_sid = '0000000'
 
   #If vatsim api temporary goes offline, the program breaks, include exception handling to avoid the bot from crashing
   while True:
@@ -53,8 +53,8 @@ while True:
       time.sleep(15.0)
   
   #Narrow down vatsim data and divide it between pilots and controllers alerts. Used for alerts
-  pilot_data = Get.getControllerData(rawjson)
-  controller_data = Get.getPilotData(rawjson)
+  pilot_data = Get.getPilotData(rawjson)
+  controller_data = Get.getControllerData(rawjson)
 
   #Conditions to run alerts
   #If exempt CID is connected as pilot
@@ -75,11 +75,9 @@ while True:
 
   # Begin composing notification when either scoped controllers and pilot CID is offline 
   if exempt_station_status == "offline" and exempt_pilot_status == "offline":
-    # Get count of departures and arrival per airport
-    ybbn_deps = StartWorkFlow.gatherDeps(pilot_data)
-    yssy_deps = StartWorkFlow.gatherDeps(pilot_data)
-    ybbn_arr = StartWorkFlow.gatherArrs(pilot_data)
-    yssy_arr = StartWorkFlow.gatherArrs(pilot_data)
+    print("Calling notification mechanism")
+    print(exempt_pilot_status)
+    print(exempt_station_status)
   else: 
     print("Scoped CIDs and stations are online, no notifications will be sent")
 
