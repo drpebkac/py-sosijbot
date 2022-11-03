@@ -22,11 +22,60 @@ class Get:
     controller_data = controller_data['controllers']
     return controller_data
 
-class StartWorkFlow:
+class WorkFlow:
+  def checkExemptBeforeWorkFlow(pilot_data, controller_data):
+    #Check conditions to run alerts
+    #If exempt CID is connected as pilot
+    #Note this has nothing to do with the function mechanism for stopping the bot from spamming
+    #This is only to stop notifying if the exempt CID is connected to VATSIM, or if one of the scopedairports are online
+    for i in pilot_data:
+      if str(i['cid']) in exemptlist:
+        exempt_pilot_status = "online"
+        break
+      else:
+        exempt_pilot_status = "offline"
+
+    #If any of the scoped stations are online
+    for a in controller_data :
+      if a['callsign'] in exemptlist:
+        exempt_station_status = "online"
+        break
+      else:
+        exempt_station_status = "offline"
+
+    if exempt_station_status == "offline" and exempt_pilot_status == "offline":
+      WorkFlow.countDeops()
+
+    elif exempt_station_status == "online" or exempt_pilot_status == "online":
+      print("Hold off calling the notification classes")
+
+
+
+
+
+
   def countDeps(pilot_data):
-    print("")
-  def countArrs(pilot_data):
-    print("")
+
+
+      #I'd be damned if this actually works lol. Wrapping a class method in a fucking list array 
+      #for airport in scopedairports:
+        #if airport is 'YSSY':
+          #yssy_dep = [WorkFlow.countDeps(pilot_data, airport)]
+          #yssy_arr = [WorkFlow.countArrs(pilot_data, airport)]
+    #elif airport is 'YBBN':
+    #ybbn_dep = [WorkFlow.countDeps(pilot_data, airport)]
+    #ybbn_arr = [WorkFlow.countArrs(pilot_data, airport)]
+    for i in pilot_data:
+      if i['flight_plan'] is not None:
+        flightplan = i['flight_plan']
+        cid = str(i['cid'])
+        dep = flightplan['departure']
+
+
+
+
+
+
 
 
 #Global variables
@@ -60,36 +109,8 @@ while True:
   pilot_data = Get.getPilotData(rawjson)
   controller_data = Get.getControllerData(rawjson)
 
-  #Conditions to run alerts
-  #If exempt CID is connected as pilot
-  #Note this has nothing to do with the function mechanism for stopping the bot from spamming
-  #This is only to stop notifying if the exempt CID is connected to VATSIM, or if one of the scopedairports are online
-  for i in pilot_data:
-    if str(i['cid']) == exemptlist:
-      exempt_pilot_status = "online"
-      break
-    else:
-      exempt_pilot_status = "offline"
+  WorkFlow.checkExemptBeforeWorkFlow(pilot_data, controller_data)
 
-  #If any of the scoped stations are online
-  for a in controller_data :
-    if a['callsign'] in exemptlist:
-      exempt_station_status = "online"
-      break
-    else:
-      exempt_station_status = "offline"
-
-  # Begin composing notification when either scoped controllers and pilot CID is offline 
-  # If both exempt status and function lock is 0, run if block and send notification
-  # function_lock stops the bot from spamming every 15 seconds
-  if exempt_station_status == "offline" and exempt_pilot_status == "offline":
-    print("Calling notification mechanism")
-    print(exempt_pilot_status)
-    print(exempt_station_status)
-  # If both exempt status is offline and function lock is 1, run if block and send notification
-  elif exempt_station_status == "online" or exempt_pilot_status == "online":
-    print("Hold off calling the notification classes")
-    
   time.sleep(15.0)
 
 
